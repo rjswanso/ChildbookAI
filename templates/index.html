@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block main %}
+<body>
+    <h1> Stories</h1>
+
+    <ul>
+        {% for story in stories %}
+        <div class="card">
+            <div class="card-body">
+                <h3>{{ story.title }}</h3>
+                <p>{{ story.story_synopsis }}</p>
+                <p> Added on {{ story.date }}</p>
+                <a href="{{ url_for('edit', story_id=story.id) }}" class = "btn btn-primary">Edit Title</a>
+                <a href="{{ url_for('viewstory', story_id=story.id) }}" class = "btn btn-primary"> View Storybook</a>
+                <a href="{{ url_for('delete', story_id=story.id) }}" class = "btn btn-danger">Delete</a>
+                
+            </div>
+        </div>
+        {% endfor %}
+    </ul>
+    
+</body>
+</html>
+
+
+{% endblock %}

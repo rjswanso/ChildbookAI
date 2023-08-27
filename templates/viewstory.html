@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block main %}
+
+
+<div class="container">
+    <form action="{{ url_for('viewstory', story_id=story_id) }}" method="post">
+        {{ form.hidden_tag() }}
+        <div class="row d-flex justify-content-center" >
+            <h2>{{ title }}</h2>
+        </div>
+        <div class="row d-flex justify-content-center">
+            {% for i in range(0,len_sections) %}
+            <div class="col d-flex justify-content-center">
+                <h3>{{ sections[i] }}</h3>
+            </div>
+            <div class="row d-flex justify-content-center">
+                {{ section_chunks[i] }}
+            </div>
+            <div class="row d-flex justify-content-center">
+                {% if img_urls[i] %}
+                <img src="{{ img_urls[i] }}" class="rounded mx-auto d-block" alt="Section {{i}} image">
+                {% endif %}
+            </div>
+            {% endfor %}      
+        </div>
+        <div class="row d-flex justify-content-center">
+            <div class="col d-flex justify-content-center">
+                {{ form.style.label }}
+                <p>{{ form.style(class="form-control") }}</p>
+                
+            </div>
+            <div class="col text-center">
+                <p>{{ form.submit(class="btn btn-primary") }}</p>
+            </div>
+        </div>
+        <div class="row d-flex justify-content-center">
+            <a href="{{ url_for('index')}}" class="btn btn-primary text-center"> Return Home</a>
+        </div>
+    </form>   
+</div>       
+                  
+    </div>
+    
+    
+
+    
+{% endblock %}
