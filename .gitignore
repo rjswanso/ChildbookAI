@@ -12,3 +12,6 @@ __pycache__/
 
 # Virtual Environment files
 env/*
+
+#Environmental variables
+.env
