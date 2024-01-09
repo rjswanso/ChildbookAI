@@ -17,4 +17,4 @@ env/*
 .env
 
 #Database
-instance/app.db
+instance/*
