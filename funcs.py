@@ -1,19 +1,20 @@
-import openai
 import json
 import asyncio
-
+from openai import AsyncOpenAI
 from dotenv import load_dotenv
 
 load_dotenv()
 
-openai.api_key = '${OPENAI_API_KEY}'
+client = AsyncOpenAI(
+    api_key='${OPENAI_API_KEY}'
+    )
 
-def create_Story(characters, story_prompt):
+async def create_Story(characters, story_prompt) -> None:
     story_section_chunks = []
     story_sections = []
     story_lst_two = []
 
-    response = openai.ChatCompletion.create(
+    response = await client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[
         {"role": "system", "content": "You are a children's book author who writes stories for kids between age 4 and 8 years old."},
@@ -38,8 +39,7 @@ def create_Story(characters, story_prompt):
         max_tokens=300
         )
     
-    response = response.choices[0].message.content.strip()
-    story_plot = response
+    story_plot = response.choices[0].message.content.strip()
     story_chunks = response.splitlines()
     story_title = story_chunks.pop(0)[8:].strip()
     for i in range(len(story_chunks)):
@@ -53,13 +53,14 @@ def getImagesFromAI(story,style):
     story_section = json.loads(story.story_section_chunks)[0]
     print(story_section)
     image_urls = []
-    response = openai.Image.create(
+    response = client.images.generate(
+        model="dall-e-3",
         prompt="An image that represents a part of the story: {} with room to add text in the uper 30 percent of the image and with the style {}".format(story_section,style),
         n=1,
-        size="512x512"
+        size="512x512",
+        quality="standard"
         )
-    image_urls.append(response['data'][0]['url'])
-    
+    image_urls.append(response.data[0].url)
     return image_urls
 
 
